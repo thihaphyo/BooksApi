@@ -12,16 +12,16 @@ class Book extends Model
 
     public function audioFiles(){
 
-        return $this->hasMany('App\Audios', 'M_AUDIO','id','book_id');
+        return $this->hasMany('App\Audios', 'book_id','id');
     }
 
     public function authors(){
 
-        return $this->belongsToMany('App\Author', 'M_AUTHOR', 'author_id', 'id');
+        return $this->belongsToMany('App\Author', 'M_BOOK' ,  'id', 'author_id');
     }
 
     public function categories(){
 
-        return $this->hasMany('App\Category','M_CATEGORY','category_id','id');
+        return $this->hasMany('App\Category','id','category_id');
     }
 }
