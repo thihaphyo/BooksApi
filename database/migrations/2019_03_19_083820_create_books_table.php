@@ -18,12 +18,14 @@ class CreateBooksTable extends Migration
             $table->bigInteger('author_id')->unsigned();
             $table->text('name');
             $table->text('desc');
+            $table->text('category_id')->unsigned();
             $table->text('book_photo');
             $table->timestamps();
         });
 
         Schema::table('M_BOOK', function($table) {
             $table->foreign('author_id')->references('id')->on('M_AUTHOR');
+            $table->foreign('category_id')->references('id')->on('M_CATEGORY');
         });
     }
 

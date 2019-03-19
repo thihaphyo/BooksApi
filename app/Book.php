@@ -19,4 +19,9 @@ class Book extends Model
 
         return $this->belongsToMany('App\Author', 'M_AUTHOR', 'author_id', 'id');
     }
+
+    public function categories(){
+
+        return $this->hasMany('App\Category','M_CATEGORY','category_id','id');
+    }
 }
