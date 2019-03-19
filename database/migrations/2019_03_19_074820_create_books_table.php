@@ -18,7 +18,7 @@ class CreateBooksTable extends Migration
             $table->bigInteger('author_id')->unsigned();
             $table->text('name');
             $table->text('desc');
-            $table->text('category_id')->unsigned();
+            $table->bigInteger('category_id')->unsigned();
             $table->text('book_photo');
             $table->timestamps();
         });
