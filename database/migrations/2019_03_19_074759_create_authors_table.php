@@ -30,5 +30,7 @@ class CreateAuthorsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('M_AUTHOR');
+        //2019_03_19_074759
+        //2019_03_19_074814
     }
 }
