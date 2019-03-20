@@ -48,14 +48,27 @@ class AuthController extends Controller
     {
         
         $credentials = request(['fbid']);
-
+    
         $id = (User::where('fbid',$request->fbid)->get())[0] -> id;
-        
-        if(!Auth::loginUsingId($id)){
 
-            //register
-        }else{
-            
+        if(count(User::where('fbid',$request->fbid)->get()) > 0 ){
+
+            if(!Auth::loginUsingId($id)){
+
+                $user = new User([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'udid' => $request->udid,
+                    'fbid' => $request->fbid,
+                    'gid' => $request->gid,
+                    'password' => bcrypt($request->password)
+                ]);
+                $user->save();
+                
+            }
+
+        }
+
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
@@ -69,7 +82,8 @@ class AuthController extends Controller
                 $tokenResult->token->expires_at
             )->toDateTimeString()
         ]);
-
-        }  
+        
+        
+        
     }
 }
