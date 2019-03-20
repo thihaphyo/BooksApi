@@ -49,9 +49,11 @@ class AuthController extends Controller
         
         $credentials = request(['fbid']);
     
-        $id = (User::where('fbid',$request->fbid)->get())[0] -> id;
+        
 
         if(count(User::where('fbid',$request->fbid)->get()) > 0 ){
+
+            $id = (User::where('fbid',$request->fbid)->get())[0] -> id;
 
             if(!Auth::loginUsingId($id)){
 
