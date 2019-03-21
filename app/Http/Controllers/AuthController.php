@@ -49,8 +49,6 @@ class AuthController extends Controller
         
         $credentials = request(['fbid']);
     
-        
-
         if(count(User::where('fbid',$request->fbid)->get()) > 0 ){
 
             $id = (User::where('fbid',$request->fbid)->get())[0] -> id;
@@ -68,24 +66,59 @@ class AuthController extends Controller
                 $user->save();
                 
             }
+            $user = $request->user();
+            $tokenResult = $user->createToken('Personal Access Token');
+            $token = $tokenResult->token;
+            $token->expires_at = Carbon::now()->addWeeks(1);
+            $token->save();
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success',
+                'user' => 'old',
+                'access_token' => $tokenResult->accessToken,
+                'token_type' => 'Bearer',
+                'expires_at' => Carbon::parse(
+                    $tokenResult->token->expires_at
+                )->toDateTimeString()
+            ]);
+
+
+        }else{
+
+            $user = new User([
+                'name' => $request->name,
+                'email' => $request->email,
+                'udid' => $request->udid,
+                'fbid' => $request->fbid,
+                'gid' => $request->gid,
+                'password' => bcrypt($request->password)
+            ]);
+            $user->save();
+
+            $id = (User::where('fbid',$request->fbid)->get())[0] -> id;
+
+            Auth::loginUsingId($id);
+
+            $user = $request->user();
+            $tokenResult = $user->createToken('Personal Access Token');
+            $token = $tokenResult->token;
+            $token->expires_at = Carbon::now()->addWeeks(1);
+            $token->save();
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success',
+                'user' => 'new',
+                'access_token' => $tokenResult->accessToken,
+                'token_type' => 'Bearer',
+                'expires_at' => Carbon::parse(
+                    $tokenResult->token->expires_at
+                )->toDateTimeString()
+            ]);
 
         }
-
-        $user = $request->user();
-        $tokenResult = $user->createToken('Personal Access Token');
-        $token = $tokenResult->token;
-        $token->expires_at = Carbon::now()->addWeeks(1);
-        $token->save();
-
-        return response()->json([
-            'access_token' => $tokenResult->accessToken,
-            'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse(
-                $tokenResult->token->expires_at
-            )->toDateTimeString()
-        ]);
-        
-        
+  
         
     }
 }
