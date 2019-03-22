@@ -39,6 +39,8 @@ Route::group([
     Route::post('getMainScreenDataSource','BooksController@getMainScreenDataSource');
 });
 
+Route::get('/test','FirebaseController@index');
+
 
 
  
