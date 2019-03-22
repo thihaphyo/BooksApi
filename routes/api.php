@@ -23,31 +23,33 @@ Route::group([
 ], function () {
     Route::post('login', 'AuthController@login');
     Route::post('signup', 'AuthController@signup');
-  
+
     Route::group([
-      'middleware' => 'auth:api'
-    ], function() {
+        'middleware' => 'auth:api'
+    ], function () {
         Route::get('logout', 'AuthController@logout');
         Route::get('user', 'AuthController@user');
-       
+
     });
 });
 
 Route::group([
     'middleware' => 'auth:api'
-  ], function() {
-    Route::post('getMainScreenDataSource','BooksController@getMainScreenDataSource');
+], function () {
+
+    Route::post('getMainScreenDataSource', 'BooksController@getMainScreenDataSource');
+    Route::post('getMainScreenSlider', 'BooksController@getMainScreenSlider');
 });
+
 
 Route::group([
     'prefix' => 'firebase',
     'middleware' => 'auth:api',
-    ], function() {
+], function () {
 
-        Route::post('getMainScreenDataSource','FirebaseController@getMainScreenDataSource');
+    Route::post('getMainScreenDataSource', 'FirebaseController@getMainScreenDataSource');
 });
 
 
 
 
- 

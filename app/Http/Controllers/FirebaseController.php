@@ -40,13 +40,13 @@ class FirebaseController extends Controller
             
             $data = array(
 
-                "book_id" => $values["book_id"],
+                "book_id" => (int) $values["book_id"],
                 "book_name" => $values["name"],
                 "book_desc" => $values["desc"],
-                "category_id" => $values["category_id"],
+                "category_id" => (int) $values["category_id"],
                 "category_data_source" => $database -> getReference('categories/'.$cat_id) -> getValue(),
                 "book_photo" => $values["book_photo"],
-                "author_id" => $values["author_id"],
+                "author_id" => (int) $values["author_id"],
                 "author" => $database -> getReference('authors/'.$author_id)->getValue()
             );
 
