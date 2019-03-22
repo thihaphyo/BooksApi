@@ -61,5 +61,6 @@ class FirebaseController extends Controller
             "data" => $dataArray
         );
         return response()->json($finaArray);
+        
     }
 }
