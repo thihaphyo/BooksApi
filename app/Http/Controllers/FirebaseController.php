@@ -11,17 +11,24 @@ use Kreait\Firebase\Database;
 
 class FirebaseController extends Controller
 {
-    
-    public function index(){
 
-        $serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/laravelfirebase-b477e-firebase-adminsdk-jtacl-38eddd04cf.json');
+    private $serviceAccount;
+    private $firebase;
+
+    public function __construct(){
+
+        $this->serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/laravelfirebase-b477e-firebase-adminsdk-jtacl-38eddd04cf.json');
         
-        $firebase = (new Factory)
-                        ->withServiceAccount($serviceAccount)
+        $this->firebase = (new Factory)
+                        ->withServiceAccount($this->serviceAccount)
                         ->withDatabaseUri('https://laravelfirebase-b477e.firebaseio.com')
                         ->create();
 
-        $database = $firebase->getDatabase();      
+    }
+    
+    public function getMainScreenDataSource(){
+
+        $database = $this->firebase->getDatabase();      
         $allBooks = $database -> getReference('books')->getValue();
         $dataArray = [];
 

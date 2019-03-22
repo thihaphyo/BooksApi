@@ -39,7 +39,14 @@ Route::group([
     Route::post('getMainScreenDataSource','BooksController@getMainScreenDataSource');
 });
 
-Route::get('/test','FirebaseController@index');
+Route::group([
+    'prefix' => 'firebase',
+    'middleware' => 'auth:api',
+    ], function() {
+
+        Route::post('getMainScreenDataSource','FirebaseController@getMainScreenDataSource');
+});
+
 
 
 
