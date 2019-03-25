@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Resources\LoginUserResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\User;
@@ -30,7 +32,7 @@ class AuthController extends Controller
             'password' => bcrypt($request->password)
         ]);
         $user->save();
-        
+
     }
 
 
@@ -46,14 +48,14 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        
+
         $credentials = request(['fbid']);
-    
-        if(count(User::where('fbid',$request->fbid)->get()) > 0 ){
 
-            $id = (User::where('fbid',$request->fbid)->get())[0] -> id;
+        if (count(User::where('fbid', $request->fbid)->get()) > 0) {
 
-            if(!Auth::loginUsingId($id)){
+            $id = (User::where('fbid', $request->fbid)->get())[0]->id;
+
+            if (!Auth::loginUsingId($id)) {
 
                 $user = new User([
                     'name' => $request->name,
@@ -64,7 +66,7 @@ class AuthController extends Controller
                     'password' => bcrypt($request->password)
                 ]);
                 $user->save();
-                
+
             }
             $user = $request->user();
             $tokenResult = $user->createToken('Personal Access Token');
@@ -72,19 +74,18 @@ class AuthController extends Controller
             $token->expires_at = Carbon::now()->addWeeks(1);
             $token->save();
 
-            return response()->json([
-                'code' => 200,
-                'message' => 'Success',
-                'user' => 'old',
-                'access_token' => $tokenResult->accessToken,
-                'token_type' => 'Bearer',
-                'expires_at' => Carbon::parse(
-                    $tokenResult->token->expires_at
-                )->toDateTimeString()
-            ]);
+
+            return (new LoginUserResourceCollection(User::where('fbid', $request->fbid)->get()))
+                ->additional(['meta' => [
+                    'code' => '200',
+                    'message' => 'Success',
+                    'user' => 'old',
+                    'access_token' => $tokenResult->accessToken,
+                    'token_type' => 'Bearer'
+                ]]);
 
 
-        }else{
+        } else {
 
             $user = new User([
                 'name' => $request->name,
@@ -96,7 +97,7 @@ class AuthController extends Controller
             ]);
             $user->save();
 
-            $id = (User::where('fbid',$request->fbid)->get())[0] -> id;
+            $id = (User::where('fbid', $request->fbid)->get())[0]->id;
 
             Auth::loginUsingId($id);
 
@@ -106,19 +107,18 @@ class AuthController extends Controller
             $token->expires_at = Carbon::now()->addWeeks(1);
             $token->save();
 
-            return response()->json([
-                'code' => 200,
-                'message' => 'Success',
-                'user' => 'new',
-                'access_token' => $tokenResult->accessToken,
-                'token_type' => 'Bearer',
-                'expires_at' => Carbon::parse(
-                    $tokenResult->token->expires_at
-                )->toDateTimeString()
-            ]);
+
+            return (new LoginUserResourceCollection(User::where('fbid', $request->fbid)->get()))
+                ->additional(['meta' => [
+                    'code' => '200',
+                    'message' => 'Success',
+                    'user' => 'old',
+                    'access_token' => $tokenResult->accessToken,
+                    'token_type' => 'Bearer'
+                ]]);
 
         }
-  
-        
+
+
     }
 }
