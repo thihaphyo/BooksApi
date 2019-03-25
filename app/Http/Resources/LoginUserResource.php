@@ -12,6 +12,15 @@ class LoginUserResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
+
+    /**
+     * @param string $wrap
+     */
+    public static function setWrap(string $wrap): void
+    {
+        self::$wrap = "aaaa";
+    }
+
     public function toArray($request)
     {
         return [
@@ -29,8 +38,5 @@ class LoginUserResource extends JsonResource
         ];
     }
 
-    public static function wrap($value)
-    {
-        parent::wrap("FuckU");
-    }
+
 }
