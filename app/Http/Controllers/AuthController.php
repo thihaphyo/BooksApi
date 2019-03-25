@@ -49,11 +49,11 @@ class AuthController extends Controller
     public function login(Request $request)
     {
 
-        $credentials = request(['fbid']);
+        $credentials = request(['gid']);
 
-        if (count(User::where('fbid', $request->fbid)->get()) > 0) {
+        if (count(User::where('gid', $request->gid)->get()) > 0) {
 
-            $id = (User::where('fbid', $request->fbid)->get())[0]->id;
+            $id = (User::where('gid', $request->gid)->get())[0]->id;
 
             if (!Auth::loginUsingId($id)) {
 
@@ -75,9 +75,9 @@ class AuthController extends Controller
             $token->save();
 
 
-            return (new LoginUserResource(User::where('fbid', $request->fbid)->first()))
+            return (new LoginUserResource(User::where('gid', $request->fbid)->first()))
                 ->additional(['meta' => [
-                    'code' => '200',
+                    'code' => 200,
                     'message' => 'Success',
                     'user' => 'old',
                     'access_token' => $tokenResult->accessToken,
@@ -97,7 +97,7 @@ class AuthController extends Controller
             ]);
             $user->save();
 
-            $id = (User::where('fbid', $request->fbid)->get())[0]->id;
+            $id = (User::where('gid', $request->gid)->get())[0]->id;
 
             Auth::loginUsingId($id);
 
@@ -108,9 +108,9 @@ class AuthController extends Controller
             $token->save();
 
 
-            return (new LoginUserResource(User::where('fbid', $request->fbid)->first()))
+            return (new LoginUserResource(User::where('gid', $request->gid)->first()))
                 ->additional(['meta' => [
-                    'code' => '200',
+                    'code' => 200,
                     'message' => 'Success',
                     'user' => 'old',
                     'access_token' => $tokenResult->accessToken,
