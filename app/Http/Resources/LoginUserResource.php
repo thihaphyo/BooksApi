@@ -28,4 +28,9 @@ class LoginUserResource extends JsonResource
             ],
         ];
     }
+
+    public static function wrap($value)
+    {
+        parent::wrap("FuckU");
+    }
 }
