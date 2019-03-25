@@ -76,7 +76,7 @@ class AuthController extends Controller
             $token->save();
 
 
-            return (new LoginUserResource(User::where('fbid', $request->fbid)->first()))
+            return (new LoginUserResourceCollection(User::where('fbid', $request->fbid)->first()))
                 ->additional(['meta' => [
                     'code' => '200',
                     'message' => 'Success',
@@ -109,7 +109,7 @@ class AuthController extends Controller
             $token->save();
 
 
-            return (new LoginUserResource(User::where('fbid', $request->fbid)->first()))
+            return (new LoginUserResourceCollection(User::where('fbid', $request->fbid)->first()))
                 ->additional(['meta' => [
                     'code' => '200',
                     'message' => 'Success',

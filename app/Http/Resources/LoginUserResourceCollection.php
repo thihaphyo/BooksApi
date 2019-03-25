@@ -16,7 +16,7 @@ class LoginUserResourceCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'data' => LoginUserResource::collection($this->collection)
+            'data' => new LoginUserResource($this->collection)
         ];
     }
 
