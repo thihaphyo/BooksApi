@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\LoginUserResource;
 use App\Http\Resources\LoginUserResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -75,7 +76,7 @@ class AuthController extends Controller
             $token->save();
 
 
-            return (new LoginUserResourceCollection(User::where('fbid', $request->fbid)->get()))
+            return (new LoginUserResource(User::where('fbid', $request->fbid)->first()))
                 ->additional(['meta' => [
                     'code' => '200',
                     'message' => 'Success',
@@ -108,7 +109,7 @@ class AuthController extends Controller
             $token->save();
 
 
-            return (new LoginUserResourceCollection(User::where('fbid', $request->fbid)->get()))
+            return (new LoginUserResource(User::where('fbid', $request->fbid)->first()))
                 ->additional(['meta' => [
                     'code' => '200',
                     'message' => 'Success',
