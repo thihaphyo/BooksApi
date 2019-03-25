@@ -13,13 +13,6 @@ class LoginUserResource extends JsonResource
      * @return array
      */
 
-    /**
-     * @param string $wrap
-     */
-    public static function setWrap(string $wrap): void
-    {
-        self::$wrap = "aaaa";
-    }
 
     public function toArray($request)
     {
