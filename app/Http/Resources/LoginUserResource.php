@@ -25,7 +25,7 @@ class LoginUserResource extends JsonResource
     public function with($request)
     {
         return [
-            'user_meta_response' => [
+            'meta' => [
 
             ],
         ];
